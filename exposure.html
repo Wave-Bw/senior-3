@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>曝光加载</title>
+  <style>
+    div {
+      width: 915px;
+      margin: 0 auto;
+    }
+    div img {
+      margin-top: 10px;
+      border: 2px solid black;
+    }
+  </style>
+</head>
+<body>
+<div>
+  <img src="img/loading.jpg" data-src="img/1.jpg" alt="">
+  <img src="img/loading.jpg" data-src="img/2.jpg" alt="">
+  <img src="img/loading.jpg" data-src="img/3.jpg" alt="">
+  <img src="img/loading.jpg" data-src="img/2.jpg" alt="">
+  <img src="img/loading.jpg" data-src="img/1.jpg" alt="">
+  <img src="img/loading.jpg" data-src="img/1.jpg" alt="">
+  <img src="img/loading.jpg" data-src="img/3.jpg" alt="">
+  <img src="img/loading.jpg" data-src="img/1.jpg" alt="">
+  <img src="img/loading.jpg" data-src="img/2.jpg" alt="">
+  <img src="img/loading.jpg" data-src="img/2.jpg" alt="">
+  <img src="img/loading.jpg" data-src="img/1.jpg" alt="">
+  <img src="img/loading.jpg" data-src="img/3.jpg" alt="">
+  <img src="img/loading.jpg" data-src="img/1.jpg" alt="">
+  <img src="img/loading.jpg" data-src="img/2.jpg" alt="">
+  <img src="img/loading.jpg" data-src="img/3.jpg" alt="">
+  <img src="img/loading.jpg" data-src="img/2.jpg" alt="">
+  <img src="img/loading.jpg" data-src="img/1.jpg" alt="">
+  <img src="img/loading.jpg" data-src="img/1.jpg" alt="">
+  <img src="img/loading.jpg" data-src="img/3.jpg" alt="">
+  <img src="img/loading.jpg" data-src="img/1.jpg" alt="">
+  <img src="img/loading.jpg" data-src="img/2.jpg" alt="">
+  <img src="img/loading.jpg" data-src="img/2.jpg" alt="">
+  <img src="img/loading.jpg" data-src="img/1.jpg" alt="">
+  <img src="img/loading.jpg" data-src="img/3.jpg" alt="">
+
+</div>
+
+<script src="jquery-3.2.1.min.js"></script>
+<script>
+  function Exposure($target, callback){
+    this.$target = $target
+    this.callback = callback
+    this.bind()
+    this.check()
+  }
+
+  Exposure.prototype.bind = function() {
+    var _this = this
+    $(window).on('scroll', function() {
+      _this.check()
+    })
+  }
+
+  Exposure.prototype.check = function() {
+    if(this.isVisible(this.$target)) {
+        this.callback(this.$target)
+    }
+  }
+
+  Exposure.prototype.isVisible = function() {
+    var windowHeight = $(window).height(),
+        scrollTop = $(window).scrollTop(),
+        offsetTop = this.$target.offset().top + this.$target.height()/2
+
+    if(windowHeight + scrollTop > offsetTop && scrollTop < offsetTop){
+      return true;
+    }
+    return false;
+  }
+
+  Exposure.prototype.isLoaded = function ($img) {
+    return $img.attr('src') === $img.attr('data-src')
+  }
+
+  function showImg($img) {
+    $img.attr('src', $img.attr('data-src'))
+  }
+
+
+  $('img').each(function(idx, img) {
+    new Exposure($(img), function() {
+      showImg($(img))
+    })
+  })
+</script>
+</body>
+</html>
