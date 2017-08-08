@@ -226,7 +226,10 @@
   }
 
   Carousel.prototype.autoPlay = function() {
-    setInterval(this.playNext(1), 2000)
+    let _this = this
+    setInterval(function(){
+      _this.playNext(1)
+    }, 3000)
   }
 
   new Carousel($('.carousel').eq(0));
